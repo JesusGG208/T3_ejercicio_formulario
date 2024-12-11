@@ -7,17 +7,17 @@
     <title>Formulario Completo</title>
 </head>
 
-<body>
+<body> <!--El formulario-->
     <form name="formulario" action="#" method="post" onsubmit="return validaFormulario(this)">
         <fieldset>
             <legend>Datos personales</legend>
             <p>
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>*
-                <label for="primer-apellido">Primer apellido:</label>
-                <input type="text" id="primer-apellido" name="primer-apellido" required>*
-                <label for="segundo-apellido">Segundo apellido:</label>
-                <input type="text" id="segundo-apellido" name="segundo-apellido" required>*
+                <input type="text" id="nombre" name="nombre">*
+                <label for="primerApellido">Primer apellido:</label>
+                <input type="text" id="primerApellido" name="primerApellido">*
+                <label for="segundoApellido">Segundo apellido:</label>
+                <input type="text" id="segundoApellido" name="segundoApellido">*
             </p>
             <p>
                 <label for="direccion">Direccion:</label>
@@ -25,15 +25,15 @@
             </p>
             <p>
                 <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" placeholder="123 33 33 33" required>*
+                <input type="tel" id="telefono" name="telefono" placeholder="123 33 33 33">*
             </p>
             <p>
-                <label for="e-mail">Email:</label>
-                <input type="email" id="e-mail" name="e-mail" placeholder="ejemplo@ejemplo.com" required>*
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="ejemplo@ejemplo.com">*
             </p>
             <p>
                 <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena" required>*
+                <input type="password" id="contrasena" name="contrasena">*
             </p>
             <p>
                 Sexo<br>
@@ -50,13 +50,13 @@
             <p>
                 Nivel de estudios:<br>
                 <label>
-                    <input type="radio" name="nivel-estudios" value="escolar"> Certificado escolar
+                    <input type="radio" name="nivel-estudios" value="escolar" checked> Certificado escolar
                 </label><br>
                 <label>
                     <input type="radio" name="nivel-estudios" value="eso"> Graduado en E.S.O.
                 </label><br>
                 <label>
-                    <input type="radio" name="nivel-estudios" value="bachiller-fp"> Bachiller - Formación Profesional
+                    <input type="radio" name="nivel-estudios" value="bachillerFp"> Bachiller - Formación Profesional
                 </label><br>
                 <label>
                     <input type="radio" name="nivel-estudios" value="diplomado"> Diplomado
@@ -108,34 +108,156 @@
                 <label for="comentario">Si deseas mandar simplemente una opinion o comentario escríbelo
                     aquí:</label><br>
                 <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario..." rows="5"
-                    cols="40"></textarea>*
+                    cols="40"></textarea>
             </p>
         </fieldset>
         <fieldset>
             <legend>Comenzar de nuevo</legend>
             <p>
                 Borrar todos los datos del formulario y volver a empezar:<br>
-                <button type="reset">Borrar todo</button>
+                <button type="reset">Borrar todo</button> <!--El botón para borrarlo todo-->
             </p>
         </fieldset>
         <fieldset>
             <legend>Enviar</legend>
             <p>Enviar formulario por correo electrónico. Al pulsar en el botón se abrirá la página de envío de correo.
                 En esa página se pulsa en enviar.</p>
-            <button type="submit">Enviar por correo</button>
+            <button type="submit">Enviar por correo</button> <!--El botón para enviar-->
         </fieldset>
     </form>
     <script>
         function validaFormulario(formulario) {
-            let nombreInput = document.getElementById("nombre");
-            let primerInput = document.getElementById("primer-apellido");
-            let segundoInput = document.getElementById("segundo-apellido");
-            let direccionInput = document.getElementById("direccion");
-            let telefonoInput = document.getElementById("telefono");
-            
-        }
+            let esValido = true;
 
-        validaFormulario(formulario);
+            // Los inputs
+            let nombreInput = document.getElementById("nombre");
+            let primerInput = document.getElementById("primerApellido");
+            let segundoInput = document.getElementById("segundoApellido");
+            let telefonoInput = document.getElementById("telefono");
+            let emailInput = document.getElementById("email");
+            let contrasena = document.getElementById("contrasena");
+
+            // La expresiones regulares
+            let exRegNombreApellido = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/;
+            let exRegTelefono = /^[0-9]{9}$/;
+            let exRegEmail = /^(.+\@.+\..+)$/;
+
+            /// Mensaje de error
+            let mensaje = "";
+            
+            // Esta variable la utilizamos para determinar el primer error
+            let primerError = null;
+            
+
+            // Verifica si el campo del nombre no está vacío
+            if (nombreInput.value === "")  {
+                mensaje += "El campo del nombre no debe estar vacío\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = nombreInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el nombre está bien escrito
+            if (exRegNombreApellido.test(nombreInput.value) === false) {
+                mensaje += "El nombre que ha introducido no es válido\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) { 
+                    primerError = nombreInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el campo del primer apellido no está vacío
+            if (primerInput.value === "") {
+                mensaje += "El campo del primer apellido no debe estar vacío\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = primerInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el primer apellido está bien escrito
+            if (exRegNombreApellido.test(primerInput.value) === false) {
+                mensaje += "El primer apellido que ha introducido no es válido\n"
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = primerInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el campo del segundo apellido no está vacío
+            if (segundoInput.value === "") {
+                mensaje += "El campo del segundo apellido no debe estar vacío\n"
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = segundoInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el segundo apellido está bien escrito
+            if (exRegNombreApellido.test(segundoInput.value) === false) {
+                mensaje += "El segundo apellido que ha introducido no es válido\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = segundoInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el campo del teléfono no está vacío
+            if (telefonoInput.value === "") {
+                mensaje += "El campo del teléfono no debe estar vacío\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = telefonoInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el teléfono está bien escrito
+            if (exRegTelefono.test(telefonoInput.value) === false) {
+                mensaje += "El teléfono que ha introducido no es válido\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = telefonoInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el campo del email no está vacío
+            if (emailInput.value === "") {
+                mensaje += "El campo del email no debe estar vacío\n"
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = emailInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el email está bien escrito
+            if (exRegEmail.test(emailInput.value) === "") {
+                mensaje += "El email que ha introducio no es válido\n";
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = emailInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Verifica si el campo de la contarseña no está vacío
+            if (contrasena.value === "") {
+                mensaje += "El campo de la contraseña no debe estar vacío\n"
+                esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
+                if (!primerError) {
+                    primerError = contrasena; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
+                }
+            }
+
+            // Si todo es correcto, se envía
+            if (esValido) {
+                return true;
+            } else {
+                // Si no es correcto, salta el mensaje y se centra en el campo del primer error
+                alert(mensaje);
+                primerError.focus();
+                return false;
+            }
+        }
     </script>
 </body>
 
