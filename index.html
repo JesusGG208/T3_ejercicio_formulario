@@ -231,8 +231,8 @@
             }
 
             // Verifica si el email está bien escrito
-            if (exRegEmail.test(emailInput.value) === "") {
-                mensaje += "El email que ha introducio no es válido\n";
+            if (exRegEmail.test(emailInput.value) === false) {
+                mensaje += "El email que ha introducido no es válido\n";
                 esValido = false; // Esta línea sirve para invalidar el formulario en caso de que esté mal
                 if (!primerError) {
                     primerError = emailInput; // En caso de que no haya errores antes, esto determina el primer error para después centrar el campo
